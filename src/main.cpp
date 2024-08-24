@@ -97,6 +97,15 @@ const uint8_t *make_image_buffer(WebPBitstreamFeatures &image_features, const st
         return nullptr;
     }
 
+    if(image_features.has_animation)
+    {
+        std::cerr << "Animated webp not implemented yet" << std::endl;
+
+        delete[] file_buffer;
+
+        return nullptr;
+    }
+
     const uint8_t *image_buffer = nullptr;
 
     if(image_features.has_alpha)
