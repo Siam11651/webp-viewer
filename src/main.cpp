@@ -107,15 +107,7 @@ const uint8_t *make_image_buffer(WebPBitstreamFeatures &image_features, const st
     }
 
     const uint8_t *image_buffer = nullptr;
-
-    if(image_features.has_alpha)
-    {
-        image_buffer = WebPDecodeRGBA(file_buffer, file_size, nullptr, nullptr);
-    }
-    else
-    {
-        image_buffer = WebPDecodeRGB(file_buffer, file_size, nullptr, nullptr);
-    }
+    image_buffer = WebPDecodeRGBA(file_buffer, file_size, nullptr, nullptr);
 
     delete[] file_buffer;
 
@@ -171,7 +163,7 @@ int main(int32_t argc, char **argv)
         return -1;
     }
 
-    image_buffer = make_image_buffer(image_features, std::filesystem::path(argv[1]));
+    image_buffer = make_image_buffer(image_features, argv[1]);
 
     if(image_buffer == nullptr)
     {
@@ -240,16 +232,7 @@ int main(int32_t argc, char **argv)
     gl::glTexParameteri(gl::GLenum::GL_TEXTURE_2D, gl::GLenum::GL_TEXTURE_MIN_FILTER, gl::GLenum::GL_LINEAR_MIPMAP_LINEAR);
     gl::glTexParameteri(gl::GLenum::GL_TEXTURE_2D, gl::GLenum::GL_TEXTURE_MAG_FILTER, gl::GLenum::GL_LINEAR);
     gl::glBindTexture(gl::GLenum::GL_TEXTURE_2D, texture);
-
-    if(image_features.has_alpha)
-    {
-        gl::glTexImage2D(gl::GLenum::GL_TEXTURE_2D, 0, gl::GLenum::GL_RGBA, image_features.width, image_features.height, 0, gl::GLenum::GL_RGBA, gl::GLenum::GL_UNSIGNED_BYTE, image_buffer);
-    }
-    else
-    {
-        gl::glTexImage2D(gl::GLenum::GL_TEXTURE_2D, 0, gl::GLenum::GL_RGB, image_features.width, image_features.height, 0, gl::GLenum::GL_RGB, gl::GLenum::GL_UNSIGNED_BYTE, image_buffer);
-    }
-
+    gl::glTexImage2D(gl::GLenum::GL_TEXTURE_2D, 0, gl::GLenum::GL_RGBA, image_features.width, image_features.height, 0, gl::GLenum::GL_RGBA, gl::GLenum::GL_UNSIGNED_BYTE, image_buffer);
     gl::glGenerateMipmap(gl::GLenum::GL_TEXTURE_2D);
 
     WebPFree((void *)image_buffer);
