@@ -146,7 +146,7 @@ void on_resize(GLFWwindow *window, int width, int height)
     window_height = height;
     vertices = make_vertices(window_width, window_height, image_features.width, image_features.height);
     
-    glViewport(0, 0, width, height);
+    gl::glViewport(0, 0, width, height);
     gl::glBindVertexArray(vao);
     gl::glBindBuffer(gl::GLenum::GL_ARRAY_BUFFER, vbo[0]);
     gl::glBufferData(gl::GLenum::GL_ARRAY_BUFFER, 12 * sizeof(float), vertices, gl::GLenum::GL_DYNAMIC_DRAW);
