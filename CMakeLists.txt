@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.5.0)
+project(webp-viewer VERSION 0.1.0 LANGUAGES C CXX)
+find_package(OpenGL REQUIRED)
+find_package(glbinding REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(WebP REQUIRED)
+add_executable(webp-viewer
+    "src/main.cpp")
+target_include_directories(webp-viewer PRIVATE "include")
+target_link_libraries(webp-viewer OpenGL glbinding::glbinding glfw webp)
